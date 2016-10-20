@@ -1,0 +1,67 @@
+    buildscript {
+        ext.kotlin_version = '$KotlinVersion$'
+        ext.scala_version = "2.11"
+
+        repositories {
+            mavenCentral()
+            maven {
+              url "https://plugins.gradle.org/m2/"
+            }
+        }
+
+        dependencies {
+            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:\$kotlin_version"
+            classpath "gradle.plugin.org.kt3k:ebean-enhance-plugin:2.0.5"
+        }
+    }
+
+subprojects {
+
+    ext {
+        scala_version = "2.11"
+    }
+    apply plugin: "kotlin"
+
+    defaultTasks 'build'
+
+    repositories {
+        ivy {
+            name "typesafe-ivy-release"
+            url "https://repo.typesafe.com/typesafe/ivy-releases"
+            layout "ivy"
+        }
+        jcenter()
+        maven {
+            name "typesafe-maven-release"
+            url "https://repo.typesafe.com/typesafe/maven-releases"
+        }
+    }
+
+    dependencies {
+      compile "org.jetbrains.kotlin:kotlin-stdlib:\$kotlin_version"
+      compile "org.jetbrains.kotlin:kotlin-reflect:\$kotlin_version"
+      compile group: 'org.jodd', name: 'jodd-core', version: '3.7'
+      compile group: 'org.jodd', name: 'jodd-bean', version: '3.7'
+      compile group: 'org.jodd', name: 'jodd-http', version: '3.7'
+      compile group: 'org.jodd', name: 'jodd-mail', version: '3.7'
+      compile group: 'org.simpleframework', name: 'simple-xml', version: '2.7.1'
+      compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.39'
+      compile group: 'com.typesafe.play', name: 'play_2.11', version: '$PlayVersion$'
+      compile group: 'com.typesafe.play', name: 'play-logback_2.11', version: '$PlayVersion$'
+      compile group: 'com.typesafe.play', name: 'play-jdbc_2.11', version: '$PlayVersion$'
+      compile group: 'com.typesafe.play', name: 'play-java_2.11', version: '$PlayVersion$'
+      compile group: 'com.typesafe.play', name: 'play-ebean_2.11', version: '$PlayEbeanVersion$'
+      compile group: 'com.typesafe.play', name: 'play-ws_2.11', version: '$PlayVersion$'
+      compile group: 'com.typesafe.play', name: 'play-cache_2.11', version: '$PlayVersion$'
+    }
+
+    sourceSets {
+        main.kotlin.srcDirs += 'app'
+        main.java.srcDirs += 'app'
+        main.resources.srcDirs += 'conf'
+        main.output.classesDir = "\${project.buildDir}/../../../target/scala-\$scala_version/classes"
+        main.output.resourcesDir = "\${project.buildDir}/../../../target/scala-\$scala_version/classes"
+    }
+}
+
+defaultTasks 'build'

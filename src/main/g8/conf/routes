@@ -1,0 +1,21 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# An example controller showing a sample home page
+GET     /                                       controllers.HomeController.index
+
+# 测试组方法
+GET        /test                                controllers.Sample.kktest
+GET        /CheckIdCard                         controllers.Sample.CheckIdCard(idcard)
+GET        /AddSampleTask                       controllers.Sample.AddSampleTask
+
+# 内置 API 方法
+GET        /apis                                controllers.BuiltIn.Apis
+GET        /apiIndex                            controllers.BuiltIn.ApiIndex
+GET        /apiSample                           controllers.BuiltIn.ApiTest(apiUrl)
+GET        /apiMarkdown                         controllers.BuiltIn.ApiMarkdown
+GET        /CreateIndexSql                      controllers.BuiltIn.CreateIndexSql
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
