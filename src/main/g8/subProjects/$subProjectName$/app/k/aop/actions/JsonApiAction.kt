@@ -1,17 +1,17 @@
 package k.aop.actions
 
 
-import k.controllers.JsonpController
-import k.aop.annotations.JsonApi
 import com.avaje.ebean.Ebean
 import com.avaje.ebean.TxIsolation
 import com.avaje.ebean.TxScope
 import com.fasterxml.jackson.databind.JsonNode
 import jodd.datetime.JDateTime
 import jodd.exception.ExceptionUtil
+import k.aop.annotations.JsonApi
 import k.common.BizLogicException
 import k.common.Helper
 import k.common.Hub
+import k.controllers.JsonpController
 import k.reply.ReplyBase
 import play.Logger
 import play.mvc.*
@@ -41,12 +41,17 @@ class JsonApiAction : Action<JsonApi>() {
             return CompletableFuture.completedFuture(result)
         }
 
-        if (this.configuration.Transactional) {
+        if (this.configuration.Transactional && this.dbConfiged) {
             return call_api_with_tran(ctx)
         } else {
             return call_api(ctx)
         }
     }
+
+    private val dbConfiged: Boolean
+        get() {
+            return Hub.configuration().getString("db.default.url", "").isNotBlank()
+        }
 
     private val hostName: String
         get() {
