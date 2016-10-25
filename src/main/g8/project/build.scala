@@ -16,28 +16,52 @@ object KotlinGradleSettings {
 }
 
 object KotlinGradleComplie {
+
+  val RESET = "\033[0m"
+  val BLUE = "\033[34m"
+  val GREEN = "\033[32m"
+  val RED = "\033[31m"
+  val YELLOW = "\033[33m"
+
   def Build(): Unit = {
     FileUtil.touch("play.gradle")
     println("====> call gradle ")
   }
 
   def TouchAppConf() = {
-    println("=============> Touch conf/.needReLoad")
-    FileUtil.touch("conf/.needReLoad")
+    // println("=============> Touch conf/.needReload")
+    FileUtil.touch("conf/.needReload")
   }
 
   def BuildByGradle(s: TaskStreams) = {
     s.log.info("Build kotlin source code by gradle")
-    val cmd = stringSeqToProcess(Seq("gradle", "--daemon", "build"))
+    val cmd = stringSeqToProcess(Seq("gradle", "--daemon", "-Pkotlin.incremental=true", "build"))
 
     def LogStdout(input: java.io.InputStream) = {
       val out = Source.fromInputStream(input, "UTF-8")
       out.getLines().foreach(li => {
-        s.log.info(li)
+        if (li.startsWith("w:")) {
+          s.log.warn(WraperText(li, YELLOW))
+        } else {
+          if (li.contains("BUILD SUCCESSFUL")) {
+            s.log.info(HighLight(li, "BUILD SUCCESSFUL", GREEN))
+          } else {
+            s.log.info(HighLight(li, "UP-TO-DATE", BLUE))
+          }
+        }
         if (li.endsWith(":build")) {
           TouchAppConf()
         }
       })
+    }
+
+    def WraperText(message: String, ansiColor: String): String = {
+      return s"${ansiColor}${message}${RESET}"
+    }
+
+    def HighLight(msg: String, keyWords: String, ansiColor: String) = {
+      val highLightStr = WraperText(keyWords, ansiColor)
+      msg.replaceAll(keyWords, highLightStr)
     }
 
     val erroutLines = new ListBuffer[String]()
