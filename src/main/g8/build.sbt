@@ -22,23 +22,29 @@ lazy val commonSettings = Seq(
     "org.jodd" % "jodd-bean" % "3.7",
     "org.jodd" % "jodd-http" % "3.7",
     "org.jodd" % "jodd-mail" % "3.7",
-    "org.simpleframework" % "simple-xml" % "2.7.1",
     "mysql" % "mysql-connector-java" % "5.1.39",
     "commons-io" % "commons-io" % "2.5",
     "org.apache.commons" % "commons-exec" % "1.3",
-    "com.fasterxml.jackson.module" % "jackson-module-kotlin" % "2.7.7",
-    "org.freemarker" % "freemarker" % "2.3.21"
+    "org.simpleframework" % "simple-xml" % "2.7.1",
+    "org.freemarker" % "freemarker" % "2.3.21",
+    "com.fasterxml.jackson.module" % "jackson-module-kotlin" % "2.7.7"
   )
 )
 
-lazy val k_base = (project in file("subProjects/$subProjectName$"))
+lazy val sharedTools = (project in file("subProjects/$sharedToolsPrjName$"))
   .settings(commonSettings: _*)
   .enablePlugins(PlayJava, PlayEbean)
+
+lazy val apiBox = (project in file("subProjects/$subBizProjectName$"))
+  .settings(commonSettings: _*)
+  .enablePlugins(PlayJava, PlayEbean)
+  .dependsOn(sharedTools)
 
 lazy val root = (project in file("."))
   .settings(commonSettings: _*)
   .enablePlugins(PlayJava, PlayEbean)
-  .dependsOn(k_base)
+  .dependsOn(sharedTools)
+  .dependsOn(apiBox)
 
 kotlinCompile := {
   val currentPath = file(".").absolutePath

@@ -1,1 +1,1 @@
-include "subProjects:$subProjectName$"
+include "subProjects:$sharedToolsPrjName$", "subProjects:$subBizProjectName$"
