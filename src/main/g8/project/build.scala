@@ -22,8 +22,8 @@ object KotlinGradleComplie {
   }
 
   def TouchAppConf() = {
-    println("=============> Touch Application.conf")
-    FileUtil.touch("conf/application.con")
+    println("=============> Touch conf/.needReLoad")
+    FileUtil.touch("conf/.needReLoad")
   }
 
   def BuildByGradle(s: TaskStreams) = {
