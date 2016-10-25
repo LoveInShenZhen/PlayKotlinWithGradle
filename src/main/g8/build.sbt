@@ -9,7 +9,26 @@ lazy val commonSettings = Seq(
   organization := "$organization$",
   version := "1.0-SNAPSHOT",
   scalaVersion := "2.11.7",
-  sources in(Compile, doc) := Seq.empty
+  sources in(Compile, doc) := Seq.empty,
+  libraryDependencies ++= Seq(
+    javaJdbc,
+    cache,
+    javaWs,
+    filters,
+    "org.jetbrains.kotlin" % "kotlin-runtime" % "$KotlinVersion$",
+    "org.jetbrains.kotlin" % "kotlin-stdlib" % "$KotlinVersion$",
+    "org.jetbrains.kotlin" % "kotlin-reflect" % "$KotlinVersion$",
+    "org.jodd" % "jodd-core" % "3.7",
+    "org.jodd" % "jodd-bean" % "3.7",
+    "org.jodd" % "jodd-http" % "3.7",
+    "org.jodd" % "jodd-mail" % "3.7",
+    "org.simpleframework" % "simple-xml" % "2.7.1",
+    "mysql" % "mysql-connector-java" % "5.1.39",
+    "commons-io" % "commons-io" % "2.5",
+    "org.apache.commons" % "commons-exec" % "1.3",
+    "com.fasterxml.jackson.module" % "jackson-module-kotlin" % "2.7.7",
+    "org.freemarker" % "freemarker" % "2.3.21"
+  )
 )
 
 lazy val k_base = (project in file("subProjects/$subProjectName$"))
@@ -36,36 +55,3 @@ clean <<= clean dependsOn kotlinClean
 
 publishArtifact in(Compile, packageDoc) := false
 
-libraryDependencies ++= Seq(
-  javaJdbc,
-  cache,
-  javaWs
-)
-
-libraryDependencies += filters
-
-libraryDependencies += "org.jetbrains.kotlin" % "kotlin-runtime" % "1.0.4"
-
-libraryDependencies += "org.jetbrains.kotlin" % "kotlin-stdlib" % "1.0.4"
-
-libraryDependencies += "org.jetbrains.kotlin" % "kotlin-reflect" % "1.0.4"
-
-libraryDependencies += "org.jodd" % "jodd-core" % "3.7"
-
-libraryDependencies += "org.jodd" % "jodd-bean" % "3.7"
-
-libraryDependencies += "org.jodd" % "jodd-http" % "3.7"
-
-libraryDependencies += "org.jodd" % "jodd-mail" % "3.7"
-
-libraryDependencies += "org.simpleframework" % "simple-xml" % "2.7.1"
-
-libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.39"
-
-libraryDependencies += "commons-io" % "commons-io" % "2.5"
-
-libraryDependencies += "org.apache.commons" % "commons-exec" % "1.3"
-
-libraryDependencies += "com.fasterxml.jackson.module" % "jackson-module-kotlin" % "2.7.7"
-
-libraryDependencies += "org.freemarker" % "freemarker" % "2.3.21"
