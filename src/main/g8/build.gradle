@@ -11,7 +11,6 @@
 
         dependencies {
             classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:\$kotlin_version"
-            classpath "gradle.plugin.org.kt3k:ebean-enhance-plugin:2.0.5"
         }
     }
 
