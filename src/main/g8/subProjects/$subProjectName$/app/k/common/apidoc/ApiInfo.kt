@@ -133,7 +133,7 @@ constructor(
     }
 
     fun TestPage(): String {
-        return "http://${Controller.request().host()}/apiSample?apiUrl=${this.url}"
+        return "http://${Controller.request().host()}/api/apiSample?apiUrl=${this.url}"
     }
 
     fun IsGetJsonApi(): Boolean {
